@@ -13,6 +13,7 @@ class User < ApplicationRecord
   
   has_many :following_user, through: :follower, source: :followed
   has_many :follower_user, through: :followed, source: :follower
+  
   has_one_attached :profile_image
 
   validates :name, presence: true, length: { minimum: 2, maximum: 20 }, uniqueness: true
@@ -32,6 +33,18 @@ class User < ApplicationRecord
   
   def following?(user)
     following_user.include?(user)
+  end
+  
+  def self.looks(method, content)
+    if method == "perfect_match"
+      @user = User.where("name LIKE?", "#{content}")
+    elsif method == "forward_match"
+      @user = User.where("name LIKE?","#{content}%")
+    elsif method == "backward_match"
+      @user = User.where("name LIKE?","%#{content}")
+    else
+      @user = User.where("name LIKE?","%#{content}%")
+    end
   end
   
 end
