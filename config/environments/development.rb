@@ -76,4 +76,6 @@ Rails.application.configure do
   
   config.hosts << "3b633c437ebc4e5691fc51d73738d902.vfs.cloud9.ap-northeast-1.amazonaws.com"
   
+  config.action_view.form_with_generates_remote_forms = true
+  
 end

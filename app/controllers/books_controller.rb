@@ -10,15 +10,19 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
+    #ずべての投稿を呼び出すときに使用する
     @book = Book.new
+    #新規投稿フォームで使用する
   end
 
   def create
     @book = Book.new(book_params)
+    #book_paramsで許可したカラムのみを受け取って新しいレコードを作成する
     @book.user_id = current_user.id
-    if @book.save
+    #投稿者を特定できるように新しいレコードを作る際に現在のユーザのIDを付与する
+    if @book.save #バリデーションを通過できていたら
       redirect_to book_path(@book), notice: "You have created book successfully."
-    else
+    else #バリデーションエラーがあったら
       @books = Book.all
       render 'index'
     end
